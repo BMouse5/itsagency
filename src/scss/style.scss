@@ -1,0 +1,132 @@
+@use 'root.scss' as *;
+@use 'components/slider' as *;
+
+@font-face {
+    font-family: "Inter Bold";
+    src: url('/src/assets/fonts/Inter_18pt-Bold.ttf');
+}
+
+@font-face {
+    font-family: "Inter Regular";
+    src: url('/src/assets/fonts/Inter_18pt-Regular.ttf');
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter Regular";
+}
+
+a {
+    text-decoration: none;
+    color: $main-black;
+}
+
+.header {
+    padding: 40px 64px;
+    height: 104px;
+    display: flex;
+    justify-content: space-between;
+    .left-bar {
+        display: flex;
+        align-items: center;
+        gap: clamp(24px, 10vw, 172px);
+        img {
+            cursor: pointer;
+        }
+        .nav {
+            width: 542px;
+            display: flex;
+            gap: 24px;
+            .nav-link {
+                font-size: 14px;
+                font-weight: 400;
+                text-transform: uppercase;
+                font-size: "Inter Regular";
+                transition: color 0.3s ease;
+                &:hover {
+                    color: #7BB899;
+                }
+            }
+        }
+    }
+    .right-bar {
+        display: flex;
+        gap: clamp(16px, 6vw, 116px);
+        .contacts {
+            span {
+                font-size: 14px;
+                color: #1f2020;
+                opacity: 0.3;
+                cursor: pointer;
+                transition: opacity 0.3s ease;
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+            h6 {
+                font-size: 16px;
+                transition: all 0.3s ease;
+                cursor: pointer;
+                position: relative;
+                &:hover {
+                    text-decoration: underline;
+                }
+                &::after {
+                    content: attr(data-tooltip);
+                    position: absolute;
+                    bottom: 125%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #333;
+                    color: #fff;
+                    padding: 5px 8px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.3s ease;
+                    white-space: nowrap;
+                    z-index: 10;
+                }
+
+                &.tooltip-visible::after {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+            }
+        }
+        .contacts-link {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            svg {
+                cursor: pointer;
+                path, circle {
+                    transition: stroke 0.3s ease;
+                }
+
+                &:hover {
+                    path, circle {
+                    stroke: #7BB899;
+                    }
+                }
+            }
+            .basket {
+                width: 24px;
+                height: 24px;
+                background: #7BB899;
+                border-radius: 100%;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+        }
+    }
+}

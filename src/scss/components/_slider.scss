@@ -1,0 +1,94 @@
+@use '../root.scss' as *;
+
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 560px;
+    .slides {
+        width: 200%;
+        height: 100%;
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        
+        .slide {
+            width: 100vw;
+            height: 100%;
+            display: flex;
+            flex-shrink: 0;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            gap: 24px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+            .slide-description {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                text-align: center;
+                width: 472px;
+                h1 {
+                    font-family: "Inter Regular";
+                    font-size: 72px;
+                    color: $main-white;
+                }
+                p {
+                    font-family: "Inter Bold";
+                    font-size: 16px;
+                    color: $main-white;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+    .radio-buttons {
+        position: absolute;
+        bottom: 39px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        background-color: rgba($main-black, 0.4);
+        padding: 13px 24px;
+        border-radius: 16px;
+        display: flex;
+        gap: 8px;      
+        input[type="radio"] {
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            appearance: none;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            outline: none;
+            &:hover {
+                background-color: $meat;
+            }
+            &:checked {
+                background-color: $meat;
+            }
+        }
+    }
+    .arrow-actions {
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        transform: translateX(-50%) translateY(-50%);
+        padding: 0 54px; 
+        .arrow {
+            background: transparent;
+            border: none;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            outline: none;
+        }
+    }
+}
