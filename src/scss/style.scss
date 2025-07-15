@@ -173,6 +173,10 @@ a {
         padding: 72px 64px;
         display: flex;
 
+        h2 {
+            display: none;
+        }
+
         .filters {
             display: flex;
             flex-direction: column;
@@ -290,7 +294,7 @@ a {
                         list-style: none;
                         padding: 0;
                         z-index: 10;
-                        min-width: 200px;
+                        min-width: 280px;
                     }
 
                     .dropdown-menu {
@@ -323,11 +327,12 @@ a {
 
                 .catalog-grid {
                     display: grid;
-                    grid-template-columns: repeat(5, 1fr);
+                    grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
                     gap: 24px;
                     max-width: 100%;
                     height: 900px;
                     overflow-y: scroll;
+
                     &::-webkit-scrollbar {
                         display: none;
                     }
@@ -338,14 +343,239 @@ a {
 }
 
 .footer {
-     
+
     height: 312px;
     background-color: $main-black;
 }
 
 
-@media (min-width: 1200px) {
-  .catalog-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    span {
+        display: block;
+        height: 3px;
+        background: #1F2020;
+        border-radius: 2px;
+    }
+}
+
+.mobile-filter-toggle {
+    display: none; // По умолчанию скрыта
+    width: 66px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.mobile-filters-popup {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 101; // Выше чем фон для бургера
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 24px 24px 0 0;
+    // Начальное состояние (скрыто под экраном)
+    transform: translateY(100%);
+    transition: transform 0.4s ease-in-out;
+
+    .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px;
+        border-bottom: 1px solid #f0f0f0;
+
+        h3 {
+            font-size: 18px;
+            font-family: "Inter Bold";
+        }
+
+        .close-filters {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+    }
+
+    .popup-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px; // Отступы между фильтрами
+    }
+
+    // Активное состояние (панель видна)
+    &.active {
+        transform: translateY(0);
+    }
+}
+
+
+
+@media (max-width: 1100px) {
+    .header {
+        padding: 20px 32px;
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .left-bar {
+            gap: 16px;
+            width: 100%;
+            justify-content: center;
+
+            .nav {
+                width: auto;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+
+                a.nav-link {
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .right-bar {
+            width: 100%;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 12px;
+
+            .contacts {
+                display: none; // или можно убрать, если мало места
+            }
+
+            .contacts-link {
+                gap: 12px;
+            }
+        }
+    }
+
+    .slider {
+        display: none;
+    }
+    .catalog {
+        // Убираем боковой отступ, т.к. фильтров сбоку больше нет
+        .catalog-container {
+            margin-left: 0;
+        }
+
+        // Скрываем десктопную панель фильтров
+        .filters {
+            display: none !important;
+        }
+
+        // Показываем мобильную кнопку "Фильтры"
+        .mobile-filter-toggle {
+            display: block;
+        }
+    }
+    .catalog-count {
+        display: none;
+    }
+}
+
+
+@media (max-width: 750px) {
+    .header {
+        flex-wrap: nowrap;
+        display: flex;
+        align-items: center;
+    }
+
+    .burger-menu {
+        display: flex;
+    }
+
+    .left-bar {
+        gap: 16px;
+
+        nav.nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            max-width: 80%;
+            height: 100vh;
+            background: #fff;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: start !important;
+            padding: 100px 30px;
+            gap: 25px;
+            transform: translateX(-100%);
+            transition: transform 0.4s ease-in-out;
+            box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);
+
+            &.active {
+                transform: translateX(0);
+            }
+        }
+    }
+
+    .right-bar {
+        width: auto !important;
+        display: block !important;
+        margin-top: 0 !important;
+
+        .contacts {
+            display: none;
+        }
+
+        .contacts-link {
+
+            // Скрыть все иконки кроме корзины
+            svg:not(.basket) {
+                display: none;
+            }
+        }
+    }
+
+    .catalog {
+        flex-direction: column;
+        padding: 64px 24px !important;
+
+        h2 {
+            display: block !important;
+            font-size: 36px;
+        }
+    }
+
+    .catalog-container {
+        margin-left: 0 !important;
+        margin-top: 48px;
+    }
+
+    .catalog-grid {
+        grid-template-columns: repeat(2, 156px) !important; // Создаем 2 колонки по 156px
+        justify-content: center; // Центрируем эти две колонки, если останется место
+        gap: 15px !important;
+        overflow-x: visible;
+    }
+    .dropdown-menu {
+        min-width: 150px !important;
+    }
+
+    .footer {
+        height: 204px !important;
+    }
 }
