@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const offset = -currentIndex * 100;
         slidesContainer.style.transform = `translateX(${offset}vw)`;
 
-        if(radios[currentIndex]) {
+        if (radios[currentIndex]) {
             radios[currentIndex].checked = true
         }
     };
@@ -27,13 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
         currentIndex = (currentIndex - 1 + slides.length) % slides.length;
         updateSLider()
     });
-    
+
     rightBtn?.addEventListener('click', () => {
         currentIndex = (currentIndex + 1) % slides.length;
         updateSLider();
     })
 
     setInterval(() => {
-        rightBtn.click();
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateSLider();
     }, 5000)
 })

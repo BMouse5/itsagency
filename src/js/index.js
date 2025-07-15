@@ -1,5 +1,7 @@
 import "../scss/style.scss";
 import './components/slider';
+import './components/dropdown';
+import './components/basket';
 import axios from 'axios';
 
 document.addEventListener('DOMContentLoaded', () => {
