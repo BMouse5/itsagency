@@ -59,8 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
-  // --- ЛОГИКА МОБИЛЬНЫХ ФИЛЬТРОВ ---
   const mobileFilterToggle = document.querySelector('.mobile-filter-toggle');
   const mobileFiltersPopup = document.querySelector('.mobile-filters-popup');
 
@@ -68,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Функции для управления состоянием
     const openFilters = () => {
-      mobileFiltersPopup.style.transform = ''; // Сбрасываем инлайн-стили на всякий случай
+      mobileFiltersPopup.style.transform = '';
       mobileFiltersPopup.classList.add('active');
       backdrop.style.display = 'block';
       body.classList.add('no-scroll');
@@ -80,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
       body.classList.remove('no-scroll');
     };
 
-    // Слушатель на кнопку "Фильтры"
     mobileFilterToggle.addEventListener('click', openFilters);
 
     // Переменные для логики перетаскивания
@@ -89,25 +86,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentTranslate = 0;
 
     mobileFiltersPopup.addEventListener('touchstart', (e) => {
-      // Начинаем перетаскивание, только если касание внутри самого попапа
       isDragging = true;
       startY = e.touches[0].clientY;
-      // Убираем transition, чтобы попап не отставал от пальца
       mobileFiltersPopup.classList.add('no-transition');
     });
 
     mobileFiltersPopup.addEventListener('touchmove', (e) => {
       if (!isDragging) return;
 
+      // ==========================================================
+      //                        ВОТ КЛЮЧЕВОЕ ИЗМЕНЕНИЕ
+      // ==========================================================
+      // Предотвращаем стандартное поведение браузера (скролл страницы)
+      // Это нужно делать именно в 'touchmove'.
+      e.preventDefault();
+
       const currentY = e.touches[0].clientY;
       currentTranslate = currentY - startY;
 
-      // Не даём тащить попап выше его начального положения
       if (currentTranslate < 0) {
         currentTranslate = 0;
       }
 
-      // Применяем смещение в реальном времени
       mobileFiltersPopup.style.transform = `translateY(${currentTranslate}px)`;
     });
 
@@ -115,38 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isDragging) return;
 
       isDragging = false;
-      // Возвращаем transition для плавной анимации
       mobileFiltersPopup.classList.remove('no-transition');
 
-      // Порог для закрытия (например, 1/3 высоты попапа)
       const closeThreshold = mobileFiltersPopup.offsetHeight / 3;
 
       if (currentTranslate > closeThreshold) {
-        // Если утащили достаточно далеко - закрываем
         closeFilters();
       } else {
-        // Иначе - плавно возвращаем на место, убирая инлайн-стиль
         mobileFiltersPopup.style.transform = '';
-      }
-    });
-  }
-
-  // ... остальной код, включая обработчик для backdrop ...
-  if (backdrop) {
-    backdrop.addEventListener('click', () => {
-      // Закрываем бургер-меню, если оно открыто
-      if (nav && nav.classList.contains('active')) {
-        // ... (ваш код для закрытия бургера)
-        burger.classList.remove('active');
-        nav.classList.remove('active');
-        backdrop.style.display = 'none';
-        body.classList.remove('no-scroll');
-      }
-
-      // Закрываем попап с фильтрами, если он открыт
-      if (mobileFiltersPopup && mobileFiltersPopup.classList.contains('active')) {
-        // Вызываем нашу функцию закрытия
-        closeFilters(); 
       }
     });
   }

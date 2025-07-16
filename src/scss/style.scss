@@ -186,6 +186,9 @@ a {
                         align-items: center;
                         gap: 5px;
                         padding: 6px 12px;
+                        span {
+                            color: $main-black;
+                        }
                     }
 
                     .dropdown-menu {
@@ -283,6 +286,7 @@ a {
     border: none;
     cursor: pointer;
     outline: none;
+    color: $main-black;
 }
 
 .mobile-filters-popup {
