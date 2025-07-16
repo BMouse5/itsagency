@@ -108,7 +108,7 @@
 
                 .item-counter {
                     margin-right: 37px;
-
+                    display: flex;
                     button {
                         width: 40px;
                         height: 24px;
@@ -135,7 +135,7 @@
 
             }
             &::-webkit-scrollbar-thumb {
-                background: gray;
+                background: $gray;
                 border-radius: 40px;
             }
         }
