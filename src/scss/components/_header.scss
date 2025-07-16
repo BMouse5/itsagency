@@ -5,6 +5,7 @@
     height: 104px;
     display: flex;
     justify-content: space-between;
+    background: $main-white;
     .left-bar {
         display: flex;
         align-items: center;
@@ -120,6 +121,26 @@
                 cursor: pointer;
             }
         }
+    }
+}
+
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    span {
+        display: block;
+        height: 3px;
+        background: #1F2020;
+        border-radius: 2px;
+        width: 100%;
     }
 }
 

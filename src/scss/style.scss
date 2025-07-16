@@ -256,26 +256,6 @@ a {
     background-color: $main-black;
 }
 
-
-.burger-menu {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px;
-    height: 18px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-
-    span {
-        display: block;
-        height: 3px;
-        background: #1F2020;
-        border-radius: 2px;
-    }
-}
-
 .mobile-filter-toggle {
     display: none;
     width: 66px;
