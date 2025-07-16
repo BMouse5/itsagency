@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     mobileFiltersPopup.addEventListener('touchmove', (e) => {
       if (!isDragging) return;
-      
+      e.preventDefault()
       const currentY = e.touches[0].clientY;
       currentTranslate = currentY - startY;
 
