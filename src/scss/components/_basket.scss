@@ -13,7 +13,8 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
     pointer-events: none;
     padding: 40px;
-
+    display: none;
+    flex-direction: column;
     .basket-header {
         width: 100%;
         display: flex;
@@ -68,7 +69,8 @@
         .list-container {
             display: flex;
             flex-direction: column;
-
+            height: calc(100vh - 280px);
+            overflow: scroll;
             .list-item {
                 display: flex;
                 align-items: center;
@@ -128,6 +130,49 @@
                 }
 
             }
+            &::-webkit-scrollbar {
+                width: 3px;
+
+            }
+            &::-webkit-scrollbar-thumb {
+                background: gray;
+                border-radius: 40px;
+            }
+        }
+    }
+    .basket-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .total-cost {
+            display: flex;
+            flex-direction: column;
+            span {
+                &:first-child {
+                    font-size: clamp(14px, 1.5vw, 18px);
+                }
+                &:last-child {
+                    font-size: clamp(20px, 2vw, 32px);
+                    font-family: "Inter Bold";
+                }
+            }
+        }
+        .buy {
+            button {
+                border: none;
+                background-color: $meat;
+                outline: none;
+                padding: clamp(14px, 2vw, 21px) clamp(24px, 5vw, 58px);
+                font-size: clamp(10px, 1vw, 14px);
+                text-transform: uppercase;
+                font-weight: 500;
+                font-family: "Inter Bold";
+                cursor: pointer;
+                transition: all 0.3s ease;
+                &:hover {
+                    background-color: rgba($meat, 0.6);
+                }
+            }
         }
     }
 }
@@ -136,6 +181,8 @@
     transform: translateX(0);
     opacity: 1;
     pointer-events: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 
