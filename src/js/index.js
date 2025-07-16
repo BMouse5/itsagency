@@ -5,7 +5,6 @@ import './components/basket';
 import axios from 'axios';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Ваш код для копирования телефона (оставляем без изменений)
   const phoneEl = document.querySelector('.contacts__phone');
   if (phoneEl) {
     phoneEl.dataset.tooltip = '';
@@ -26,17 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Общие элементы
   const backdrop = document.querySelector('.dropdown-backdrop');
   const body = document.body;
 
-  // --- ЛОГИКА БУРГЕР-МЕНЮ ---
   const burger = document.querySelector('.burger-menu');
   const nav = document.querySelector('.left-bar .nav');
-  let closeBurgerMenu; // Объявляем функцию здесь, чтобы она была доступна везде
+  let closeBurgerMenu; 
 
   if (burger && nav && backdrop && body) {
-    // Присваиваем функцию здесь
     closeBurgerMenu = () => {
       burger.classList.remove('active');
       nav.classList.remove('active');
@@ -61,10 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- ЛОГИКА МОБИЛЬНЫХ ФИЛЬТРОВ ---
   const mobileFilterToggle = document.querySelector('.mobile-filter-toggle');
   const mobileFiltersPopup = document.querySelector('.mobile-filters-popup');
-  let closeFilters; // Объявляем функцию здесь
+  let closeFilters;
 
   if (mobileFilterToggle && mobileFiltersPopup && backdrop && body) {
     const openFilters = () => {
@@ -74,9 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
       body.classList.add('no-scroll');
     };
     
-    // Присваиваем функцию здесь
     closeFilters = () => {
-      mobileFiltersPopup.style.transform = '';
+      mobileFiltersPopup.style.transform = ''; 
       mobileFiltersPopup.classList.remove('active');
       backdrop.style.display = 'none';
       body.classList.remove('no-scroll');
@@ -84,17 +78,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     mobileFilterToggle.addEventListener('click', openFilters);
 
-    // Логика свайпа (оставляем без изменений)
     let isDragging = false;
     let startY = 0;
     let currentTranslate = 0;
-    mobileFiltersPopup.addEventListener('touchstart', (e) => { /* ... */ });
-    mobileFiltersPopup.addEventListener('touchmove', (e) => { /* ... */ });
+
+    mobileFiltersPopup.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      startY = e.touches[0].clientY;
+      currentTranslate = 0;
+      mobileFiltersPopup.classList.add('no-transition');
+    });
+
+    mobileFiltersPopup.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+
+      const currentY = e.touches[0].clientY;
+      currentTranslate = currentY - startY;
+
+      if (currentTranslate < 0) {
+        currentTranslate = 0;
+      }
+      mobileFiltersPopup.style.transform = `translateY(${currentTranslate}px)`;
+    });
+
     mobileFiltersPopup.addEventListener('touchend', () => {
       if (!isDragging) return;
       isDragging = false;
       mobileFiltersPopup.classList.remove('no-transition');
+
       const closeThreshold = mobileFiltersPopup.offsetHeight / 3;
+
       if (currentTranslate > closeThreshold) {
         closeFilters();
       } else {
@@ -103,19 +117,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ===================================================================
-  //          ВОТ ДОБАВЛЕННЫЙ БЛОК: ЗАКРЫТИЕ ПО КЛИКУ НА ФОН
-  // ===================================================================
   if (backdrop) {
     backdrop.addEventListener('click', () => {
-      // Проверяем, открыто ли бургер-меню, и если да - закрываем
       if (nav && nav.classList.contains('active')) {
-        closeBurgerMenu(); // Вызываем нашу готовую функцию
+        closeBurgerMenu();
       }
-
-      // Проверяем, открыт ли попап с фильтрами, и если да - закрываем
       if (mobileFiltersPopup && mobileFiltersPopup.classList.contains('active')) {
-        closeFilters(); // Вызываем нашу готовую функцию
+        closeFilters();
       }
     });
   }
