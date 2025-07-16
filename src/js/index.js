@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isDragging = false;
       mobileFiltersPopup.classList.remove('no-transition');
 
-      const closeThreshold = mobileFiltersPopup.offsetHeight / 3;
+      const closeThreshold = 30;
 
       if (currentTranslate > closeThreshold) {
         closeFilters();
