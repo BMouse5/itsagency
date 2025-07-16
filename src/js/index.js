@@ -73,6 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const closeFilters = () => {
+      // Сначала убираем инлайновый стиль, чтобы CSS мог взять управление
+      mobileFiltersPopup.style.transform = ''; 
+
+      // Затем выполняем остальные действия
       mobileFiltersPopup.classList.remove('active');
       backdrop.style.display = 'none';
       body.classList.remove('no-scroll');
