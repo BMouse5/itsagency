@@ -141,6 +141,7 @@
         }
     }
     .basket-footer {
+        margin-top: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -169,6 +170,7 @@
                 font-family: "Inter Bold";
                 cursor: pointer;
                 transition: all 0.3s ease;
+                color: $main-black;
                 &:hover {
                     background-color: rgba($meat, 0.6);
                 }
