@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if(mobileFilterToggle) {
     mobileFilterToggle.addEventListener('click', () => {
+      mobileFiltersPopup.style.transform = 'translateY(0)';
       mobileFiltersPopup.classList.add('active');
       updateBackdropAndScroll();
     });
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileFiltersPopup.classList.remove('active');
         updateBackdropAndScroll();
       } else {
-        mobileFiltersPopup.style.transform = '';
+        mobileFiltersPopup.style.transform = 'translateY(0)';
       }
     });
   }
