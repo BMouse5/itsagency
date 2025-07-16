@@ -137,3 +137,35 @@
     opacity: 1;
     pointer-events: auto;
 }
+
+
+@media (max-width: 750px) {
+    .basket-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 650px) {
+    .list-item {
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+        .item-description {
+            margin-right: 0 !important;
+        }
+        .item-counter {
+            margin-right: 0 !important;
+            margin-top: 16px;
+        }
+        .item-img {
+            margin-right: 0 !important;
+        }
+        .item-remove {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+        }
+    }
+    
+}

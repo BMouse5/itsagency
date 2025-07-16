@@ -2,6 +2,7 @@
 @use 'components/slider' as *;
 @use 'components/card' as *;
 @use 'components/basket' as *;
+@use 'components/header' as *;
 
 @font-face {
     font-family: "Inter Bold";
@@ -33,130 +34,6 @@ a {
     color: $main-black;
 }
 
-.header {
-    padding: 40px 64px;
-    height: 104px;
-    display: flex;
-    justify-content: space-between;
-
-    .left-bar {
-        display: flex;
-        align-items: center;
-        gap: clamp(24px, 10vw, 172px);
-
-        img {
-            cursor: pointer;
-        }
-
-        .nav {
-            width: 542px;
-            display: flex;
-            gap: 24px;
-
-            .nav-link {
-                font-size: clamp(12px, 0.9vw, 14px);
-                font-weight: 400;
-                text-transform: uppercase;
-                font-size: "Inter Regular";
-                transition: color 0.3s ease;
-
-                &:hover {
-                    color: #7BB899;
-                }
-            }
-        }
-    }
-
-    .right-bar {
-        display: flex;
-        gap: clamp(16px, 6vw, 116px);
-
-        .contacts {
-            span {
-                font-size: clamp(12px, 0.9vw, 14px);
-                color: #1f2020;
-                opacity: 0.3;
-                cursor: pointer;
-                transition: opacity 0.3s ease;
-
-                &:hover {
-                    opacity: 0.8;
-                }
-            }
-
-            h6 {
-                font-size: clamp(14px, 1vw, 16px);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                position: relative;
-                width: max-content;
-
-                &:hover {
-                    text-decoration: underline;
-                }
-
-                &::after {
-                    content: attr(data-tooltip);
-                    position: absolute;
-                    bottom: 125%;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: #333;
-                    color: #fff;
-                    padding: 5px 8px;
-                    border-radius: 4px;
-                    font-size: 12px;
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity 0.3s ease;
-                    white-space: nowrap;
-                    z-index: 10;
-                }
-
-                &.tooltip-visible::after {
-                    opacity: 1;
-                    pointer-events: auto;
-                }
-            }
-        }
-
-        .contacts-link {
-            display: flex;
-            gap: 24px;
-            align-items: center;
-
-            svg {
-                cursor: pointer;
-
-                path,
-                circle {
-                    transition: stroke 0.3s ease;
-                }
-
-                &:hover {
-
-                    path,
-                    circle {
-                        stroke: #7BB899;
-                    }
-                }
-            }
-
-            .basket {
-                width: 24px;
-                height: 24px;
-                background: #7BB899;
-                border-radius: 100%;
-                font-size: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-            }
-        }
-    }
-}
-
 .dropdown-backdrop {
     display: none;
     position: fixed;
@@ -168,7 +45,108 @@ a {
     z-index: 5;
 }
 
+.filter-switch {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    span {
+        font-family: "Inter Regular";
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 36px;
+        height: 22px;
+    }
+
+    .switch input {
+        display: none;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $light-gray;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 8px;
+        width: 8px;
+        left: 7px;
+        bottom: 7px;
+        background-color: $main-black;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: $meat;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px $meat;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(14px);
+        -ms-transform: translateX(14px);
+        transform: translateX(14px);
+    }
+
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+}
+
 .main {
+    position: relative;
+    .breadcrumbs {
+        position: absolute; 
+        top: 32px;
+        left: 64px;
+        ul {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        a {
+            text-decoration: none;
+            color: rgba($main-white, 0.3);
+            transition: all 0.3s ease;
+            &:hover {
+                color: white;
+            }
+        }
+
+        .separator {
+            color: rgba(255, 255, 255, 0.5);
+        }
+    }
+
     .catalog {
         padding: 72px 64px;
         display: flex;
@@ -181,77 +159,6 @@ a {
             display: flex;
             flex-direction: column;
             gap: 10px;
-
-            .filter-switch {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-
-                span {
-                    font-family: "Inter Regular";
-                    font-size: 12px;
-                    text-transform: uppercase;
-                    letter-spacing: 0.06em;
-                }
-
-                .switch {
-                    position: relative;
-                    display: inline-block;
-                    width: 36px;
-                    height: 22px;
-                }
-
-                .switch input {
-                    display: none;
-                }
-
-                .slider {
-                    position: absolute;
-                    cursor: pointer;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background-color: $light-gray;
-                    -webkit-transition: .4s;
-                    transition: .4s;
-                }
-
-                .slider:before {
-                    position: absolute;
-                    content: "";
-                    height: 8px;
-                    width: 8px;
-                    left: 7px;
-                    bottom: 7px;
-                    background-color: $main-black;
-                    -webkit-transition: .4s;
-                    transition: .4s;
-                }
-
-                input:checked+.slider {
-                    background-color: $meat;
-                }
-
-                input:focus+.slider {
-                    box-shadow: 0 0 1px $meat;
-                }
-
-                input:checked+.slider:before {
-                    -webkit-transform: translateX(14px);
-                    -ms-transform: translateX(14px);
-                    transform: translateX(14px);
-                }
-
-                .slider.round {
-                    border-radius: 34px;
-                }
-
-                .slider.round:before {
-                    border-radius: 50%;
-                }
-
-            }
         }
 
         .catalog-container {
@@ -263,8 +170,6 @@ a {
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
-
-                .catalog-count {}
 
                 .dropdown {
                     position: relative;
@@ -369,7 +274,7 @@ a {
 }
 
 .mobile-filter-toggle {
-    display: none; // По умолчанию скрыта
+    display: none;
     width: 66px;
     font-size: 12px;
     text-transform: uppercase;
@@ -386,41 +291,28 @@ a {
     left: 0;
     width: 100%;
     background: #fff;
-    z-index: 101; // Выше чем фон для бургера
-    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 101;
     border-radius: 24px 24px 0 0;
-    // Начальное состояние (скрыто под экраном)
     transform: translateY(100%);
     transition: transform 0.4s ease-in-out;
-
-    .popup-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 24px;
-        border-bottom: 1px solid #f0f0f0;
-
-        h3 {
-            font-size: 18px;
-            font-family: "Inter Bold";
-        }
-
-        .close-filters {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-        }
+    &.no-transition {
+        transition: none;
     }
-
+    .slide-down {
+        width: 28px;
+        height: 4px;
+        border-radius: 40px;
+        margin: 0 auto;
+        background-color: rgba($gray, 0.6);
+        margin-top: 12px;
+    }
     .popup-body {
         padding: 24px;
         display: flex;
         flex-direction: column;
-        gap: 16px; // Отступы между фильтрами
+        gap: 16px;
     }
 
-    // Активное состояние (панель видна)
     &.active {
         transform: translateY(0);
     }
@@ -428,61 +320,16 @@ a {
 
 
 
-@media (max-width: 1100px) {
-    .header {
-        padding: 20px 32px;
-        height: auto;
-        flex-wrap: wrap;
-        justify-content: center;
-
-        .left-bar {
-            gap: 16px;
-            width: 100%;
-            justify-content: center;
-
-            .nav {
-                width: auto;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 12px;
-
-                a.nav-link {
-                    font-size: 14px;
-                }
-            }
-        }
-
-        .right-bar {
-            width: 100%;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 12px;
-
-            .contacts {
-                display: none; // или можно убрать, если мало места
-            }
-
-            .contacts-link {
-                gap: 12px;
-            }
-        }
-    }
-
-    .slider {
-        display: none;
-    }
+@media (max-width: 1230px) {
     .catalog {
-        // Убираем боковой отступ, т.к. фильтров сбоку больше нет
         .catalog-container {
-            margin-left: 0;
+            margin-left: 0 !important;
         }
 
-        // Скрываем десктопную панель фильтров
         .filters {
             display: none !important;
         }
 
-        // Показываем мобильную кнопку "Фильтры"
         .mobile-filter-toggle {
             display: block;
         }
@@ -492,64 +339,27 @@ a {
     }
 }
 
-
-@media (max-width: 750px) {
-    .header {
-        flex-wrap: nowrap;
-        display: flex;
-        align-items: center;
-    }
-
-    .burger-menu {
-        display: flex;
-    }
-
-    .left-bar {
-        gap: 16px;
-
-        nav.nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 300px;
-            max-width: 80%;
-            height: 100vh;
-            background: #fff;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: start !important;
-            padding: 100px 30px;
-            gap: 25px;
-            transform: translateX(-100%);
-            transition: transform 0.4s ease-in-out;
-            box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);
-
-            &.active {
-                transform: translateX(0);
-            }
-        }
-    }
-
-    .right-bar {
-        width: auto !important;
-        display: block !important;
-        margin-top: 0 !important;
-
-        .contacts {
+@media (max-width: 1000px) {
+    .main{
+        .slider {
             display: none;
         }
+    }
+}
 
-        .contacts-link {
 
-            // Скрыть все иконки кроме корзины
-            svg:not(.basket) {
-                display: none;
+@media (max-width: 750px) {
+    .breadcrumbs {
+        left: 24px !important;
+        top: 16px !important;
+        ul {
+            li {
+                a {
+                    color: rgba($gray, 0.3) !important;
+                }
             }
         }
     }
-
     .catalog {
         flex-direction: column;
         padding: 64px 24px !important;
@@ -566,8 +376,8 @@ a {
     }
 
     .catalog-grid {
-        grid-template-columns: repeat(2, 156px) !important; // Создаем 2 колонки по 156px
-        justify-content: center; // Центрируем эти две колонки, если останется место
+        grid-template-columns: repeat(2, 156px) !important;
+        justify-content: center;
         gap: 15px !important;
         overflow-x: visible;
     }

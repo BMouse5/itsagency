@@ -5,7 +5,7 @@ import './components/basket';
 import axios from 'axios';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // --- КОПИРОВАНИЕ ТЕЛЕФОНА (оставляем без изменений) ---
+  // Ваш код для копирования телефона (оставляем без изменений)
   const phoneEl = document.querySelector('.contacts__phone');
   if (phoneEl) {
     phoneEl.dataset.tooltip = '';
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- ОБЩИЕ ЭЛЕМЕНТЫ ДЛЯ МЕНЮ И ПОПАПОВ ---
+  // Общие элементы
   const backdrop = document.querySelector('.dropdown-backdrop');
   const body = document.body;
 
@@ -35,65 +35,119 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav = document.querySelector('.left-bar .nav');
 
   if (burger && nav && backdrop && body) {
-    const toggleBurgerMenu = () => {
-      burger.classList.toggle('active'); // Для анимации в крестик (если понадобится)
-      nav.classList.toggle('active');
-      backdrop.classList.toggle('active');
-      body.classList.toggle('no-scroll');
+    const closeBurgerMenu = () => {
+      burger.classList.remove('active');
+      nav.classList.remove('active');
+      backdrop.style.display = 'none';
+      body.classList.remove('no-scroll');
+    };
+    
+    const openBurgerMenu = () => {
+      burger.classList.add('active');
+      nav.classList.add('active');
+      backdrop.style.display = 'block';
+      body.classList.add('no-scroll');
     };
 
     burger.addEventListener('click', (e) => {
-      e.stopPropagation(); // ВАЖНО: чтобы клик по бургеру не закрыл меню сразу
-      toggleBurgerMenu();
-    });
-
-    // Закрываем меню по клику на ссылку
-    nav.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', toggleBurgerMenu);
+      e.stopPropagation();
+      // Если меню уже открыто, закрываем, иначе открываем
+      if (nav.classList.contains('active')) {
+        closeBurgerMenu();
+      } else {
+        openBurgerMenu();
+      }
     });
   }
 
   // --- ЛОГИКА МОБИЛЬНЫХ ФИЛЬТРОВ ---
   const mobileFilterToggle = document.querySelector('.mobile-filter-toggle');
   const mobileFiltersPopup = document.querySelector('.mobile-filters-popup');
-  const closeFiltersBtn = document.querySelector('.close-filters');
 
-  if (mobileFilterToggle && mobileFiltersPopup && closeFiltersBtn && backdrop && body) {
+  if (mobileFilterToggle && mobileFiltersPopup && backdrop && body) {
+    
+    // Функции для управления состоянием
     const openFilters = () => {
+      mobileFiltersPopup.style.transform = ''; // Сбрасываем инлайн-стили на всякий случай
       mobileFiltersPopup.classList.add('active');
-      backdrop.classList.add('active');
+      backdrop.style.display = 'block';
       body.classList.add('no-scroll');
     };
-
+    
     const closeFilters = () => {
       mobileFiltersPopup.classList.remove('active');
-      // Закрываем фон, только если главное меню (бургер) тоже закрыто
-      if (!nav.classList.contains('active')) {
-        backdrop.classList.remove('active');
-        body.classList.remove('no-scroll');
-      }
+      backdrop.style.display = 'none';
+      body.classList.remove('no-scroll');
     };
 
+    // Слушатель на кнопку "Фильтры"
     mobileFilterToggle.addEventListener('click', openFilters);
-    closeFiltersBtn.addEventListener('click', closeFilters);
+
+    // Переменные для логики перетаскивания
+    let isDragging = false;
+    let startY = 0;
+    let currentTranslate = 0;
+
+    mobileFiltersPopup.addEventListener('touchstart', (e) => {
+      // Начинаем перетаскивание, только если касание внутри самого попапа
+      isDragging = true;
+      startY = e.touches[0].clientY;
+      // Убираем transition, чтобы попап не отставал от пальца
+      mobileFiltersPopup.classList.add('no-transition');
+    });
+
+    mobileFiltersPopup.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+
+      const currentY = e.touches[0].clientY;
+      currentTranslate = currentY - startY;
+
+      // Не даём тащить попап выше его начального положения
+      if (currentTranslate < 0) {
+        currentTranslate = 0;
+      }
+
+      // Применяем смещение в реальном времени
+      mobileFiltersPopup.style.transform = `translateY(${currentTranslate}px)`;
+    });
+
+    mobileFiltersPopup.addEventListener('touchend', () => {
+      if (!isDragging) return;
+
+      isDragging = false;
+      // Возвращаем transition для плавной анимации
+      mobileFiltersPopup.classList.remove('no-transition');
+
+      // Порог для закрытия (например, 1/3 высоты попапа)
+      const closeThreshold = mobileFiltersPopup.offsetHeight / 3;
+
+      if (currentTranslate > closeThreshold) {
+        // Если утащили достаточно далеко - закрываем
+        closeFilters();
+      } else {
+        // Иначе - плавно возвращаем на место, убирая инлайн-стиль
+        mobileFiltersPopup.style.transform = '';
+      }
+    });
   }
 
-  // --- ОБЩИЙ СЛУШАТЕЛЬ ДЛЯ ЗАКРЫТИЯ ПО ФОНУ ---
+  // ... остальной код, включая обработчик для backdrop ...
   if (backdrop) {
-      backdrop.addEventListener('click', () => {
-          // Если открыто меню бургера - закрываем его
-          if (nav && nav.classList.contains('active')) {
-              burger.classList.remove('active');
-              nav.classList.remove('active');
-              backdrop.classList.remove('active');
-              body.classList.remove('no-scroll');
-          }
-          // Если открыты фильтры - закрываем их
-          if (mobileFiltersPopup && mobileFiltersPopup.classList.contains('active')) {
-              mobileFiltersPopup.classList.remove('active');
-              backdrop.classList.remove('active');
-              body.classList.remove('no-scroll');
-          }
-      });
+    backdrop.addEventListener('click', () => {
+      // Закрываем бургер-меню, если оно открыто
+      if (nav && nav.classList.contains('active')) {
+        // ... (ваш код для закрытия бургера)
+        burger.classList.remove('active');
+        nav.classList.remove('active');
+        backdrop.style.display = 'none';
+        body.classList.remove('no-scroll');
+      }
+
+      // Закрываем попап с фильтрами, если он открыт
+      if (mobileFiltersPopup && mobileFiltersPopup.classList.contains('active')) {
+        // Вызываем нашу функцию закрытия
+        closeFilters(); 
+      }
+    });
   }
 });
